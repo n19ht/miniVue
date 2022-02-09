@@ -19,11 +19,17 @@
     </div>
     <script src="./render.js"></script>
     <script>
-        const vNode = h('div', { class: '李银河' }, [
+        const vNode1 = h('div', { class: '李银河', age: 888 }, [
             h('h2', null, '当前计数：100'),
             h('button', null, "+1")
         ])
-        mount(vNode, document.getElementById('app'))
+        mount(vNode1, document.getElementById('app'))
+        const vNode2 = h('div', { class: '张三', name: '999' }, [
+            h('h3', null, '当前计数：200'),
+        ])
+        setTimeout(() => {
+            patch(vNode1, vNode2)
+        }, 2000)
     </script>
 </body>
 
