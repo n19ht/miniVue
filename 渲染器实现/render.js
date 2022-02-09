@@ -38,6 +38,7 @@ const mount = (vNode, container) => {
 
 const patch = (vNode1, Vnode2) => {
     if (vNode1.tag !== Vnode2.tag) {
+        //处理tag
         const n1Parent = vNode1.el.parentElement
         n1Parent.removeChild(vNode1.el)
         mount(Vnode2, n1Parent)
@@ -85,7 +86,7 @@ const patch = (vNode1, Vnode2) => {
                 })
             } else {
                 //old[v1,v2,v3]
-                //new[v2,v5,v6,v7]此处暂未考虑key的情况
+                //new[v4,v5,v6,v7]此处暂未考虑key的情况
                 const commonLen = Math.min(newChildren.length, oldChildren.length)
                 //前面有相同的元素进行path操作
                 for (let i = 0; i < commonLen; i++) {
