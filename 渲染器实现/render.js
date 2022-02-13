@@ -18,14 +18,14 @@ const mount = (vNode, container) => {
         for (key in vNode.props) {
             const value = vNode.props[key]
             if (key.startsWith('on')) {
-                el.addEventListener(key.splice(2).toLowerCase(), value)
+                el.addEventListener(key.substring(2).toLowerCase(), value)
             } else {
                 el.setAttribute(key, value)
             }
         }
     }
     if (vNode.children) {
-        if (typeof vNode.children === 'string') {
+        if (typeof vNode.children === 'string' || typeof vNode.children === 'number') {
             el.textContent = vNode.children
         } else {
             vNode.children.forEach(item => {
@@ -36,44 +36,45 @@ const mount = (vNode, container) => {
     container.appendChild(el)
 }
 
-const patch = (vNode1, Vnode2) => {
-    if (vNode1.tag !== Vnode2.tag) {
+const patch = (vNode1, vNode2) => {
+    if (vNode1.tag !== vNode2.tag) {
         //处理tag
         const n1Parent = vNode1.el.parentElement
         n1Parent.removeChild(vNode1.el)
-        mount(Vnode2, n1Parent)
+        mount(vNode2, n1Parent)
     } else {
         //处理props
-        const el = Vnode2.el = vNode1.el
+        const el = vNode2.el = vNode1.el
         const newProps = vNode2.props || {}
         const oldProps = vNode1.props || {}
         for (const key in newProps) {
             const newValue = vNode2.props[key]
             const oldValue = vNode1.props[key]
-            if (oldValue === newValue) return
-            if (key.startsWith('on')) {
-                const value = newProps[key]
-                el.addEventListener(key.splice(2).toLowerCase(), value)
-            } else {
-                const value = newProps[key]
-                el.setAttribute(key, value)
+            if (oldValue !== newValue) {
+                if (key.startsWith('on')) {
+                    const value = newProps[key]
+                    el.addEventListener(key.substring(2).toLowerCase(), value)
+                } else {
+                    const value = newProps[key]
+                    el.setAttribute(key, value)
+                }
             }
         }
         for (const key in oldProps) {
+            if (key.startsWith('on')) {
+                const value = oldProps[key]
+                el.removeEventListener(key.substring(2).toLowerCase(), value)
+            }
             if (!newProps[key]) {
-                if (key.startsWith('on')) {
-                    const value = oldProps[key]
-                    el.removeEventListener(key.splice(2).toLowerCase(), value)
-                } else {
-                    el.removeAttribute(key)
-                }
+                el.removeAttribute(key)
             }
         }
         //处理children
         const newChildren = vNode2.children || []
         const oldChildren = vNode1.children || []
-        if (typeof newChildren === 'string') {
-            if (typeof oldChildren === 'string') {
+        // console.log(newChildren, oldChildren);
+        if (typeof newChildren === 'string' || typeof newChildren === 'number') {
+            if (typeof oldChildren === 'string' || typeof newChildren === 'number') {
                 el.textContent = newChildren
             } else {
                 el.innerText = newChildren

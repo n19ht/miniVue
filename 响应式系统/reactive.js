@@ -79,24 +79,24 @@ const reactive = (raw) => {
         }
     })
 }
-const obj = reactive({
-    name: '李银河',
-    age: 17,
-    sex: '男'
-})
+// const obj = reactive({
+//     name: '李银河',
+//     age: 17,
+//     sex: '男'
+// })
 
-watchEffect(function a() {
-    console.log(obj.name);
-})
+// watchEffect(function a() {
+//     console.log(obj.name);
+// })
 
-watchEffect(function b() {
-    console.log(obj.age);
-})
+// watchEffect(function b() {
+//     console.log(obj.age);
+// })
 
-watchEffect(function c() {
-    console.log(obj.sex);
-})
-console.log('===========');
-obj.name = '张三'
-obj.sex = '女'
+// watchEffect(function c() {
+//     console.log(obj.sex);
+// })
+// console.log('===========');
+// obj.name = '张三'
+// obj.sex = '女'
 

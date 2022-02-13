@@ -1,0 +1,41 @@
+<!--
+ * @Author: yuanchao
+ * @Date: 2022-02-10 22:59:05
+ * @FilePath: \miniVue\miniVue的实现\index.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="../渲染器实现/render.js"></script>
+    <script src="../响应式系统/reactive.js"></script>
+    <script src="./index.js"></script>
+    <div id="app">
+    </div>
+    <script>
+        const App = {
+            data: reactive({
+                name: '李银河',
+                age: 18
+            }),
+            render() {
+                return h('div', null, [
+                    h('h1', { class: 'lyh' }, '当前年龄'),
+                    h('h1', { class: 'lyh' }, this.data.age),
+                    h('button', { onClick: () => { this.data.age++ } }, '增加年龄')
+                ])
+            }
+        }
+        createApp(App).mount('#app')
+    </script>
+</body>
+
+</html>
